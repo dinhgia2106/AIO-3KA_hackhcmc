@@ -1,7 +1,7 @@
 $(function() {
     //values pulled from query string
     $('#model').val("detect-beer-8c3cm");
-    $('#version').val("6");
+    $('#version').val("13");
     $('#api_key').val("Xeiw1baJjcr7i65JdxIW");
 
     setupButtonListeners();
@@ -24,10 +24,13 @@ var infer = function() {
         };
 
         $.ajax(settings).then(function(response) {
-            if(settings.format == "json") {
-                var pretty = $('<pre>');
-                var formatted = JSON.stringify(response, null, 4)
+            console.log("Response received:", response);  // Log the response for debugging
 
+            var isJsonResponse = settings.format === "json";
+
+            if (isJsonResponse) {
+                var pretty = $('<pre>');
+                var formatted = JSON.stringify(response, null, 4);
                 pretty.html(formatted);
                 $('#output').html("").append(pretty);
                 $('html').scrollTop(100000);
@@ -44,10 +47,40 @@ var infer = function() {
                 };
                 img.attr('src', base64image);
                 $('#output').html("").append(img);
+
+                // Fetch the JSON representation of the response for counting
+                $.ajax({
+                    url: settings.url + "&format=json",
+                    method: "POST",
+                    data: settings.data,
+                    success: function(jsonResponse) {
+                        var drinkerCount = 0;
+                        if (jsonResponse && jsonResponse.predictions) {
+                            drinkerCount = jsonResponse.predictions.filter(function(prediction) {
+                                return prediction.class === "drinker";
+                            }).length;
+                        }
+
+                        console.log("Number of 'drinker' classes detected:", drinkerCount);
+                        var resultText = "Number of 'drinker' classes detected: " + drinkerCount;
+                        $('#output').prepend(resultText + "<br/>");
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log("Error fetching JSON response:", textStatus, errorThrown);
+                        $('#output').prepend("Error fetching JSON response. Number of 'drinker' classes detected: 0<br/>");
+                    }
+                });
             }
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.log("AJAX call failed:", textStatus, errorThrown);  // Log AJAX errors for debugging
+            $('#output').html("Error occurred during inference.");
         });
     });
 };
+
+
+
+
 
 var retrieveDefaultValuesFromLocalStorage = function() {
     try {
