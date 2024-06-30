@@ -59,6 +59,9 @@ span.icon {
 
 .header__logo {
     height: 4rem;
+    display: flex;
+    align-content: start;
+    padding-left: 350px;
 }
 
 .header__label {
@@ -315,4 +318,18 @@ input:disabled {
         padding: 0.75rem;
         background-color: white;
     }
+
+    .center-horizontal {
+        text-align: center;
+        margin: 0 auto;
+    }
     
+    .center-vertical-horizontal {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh; /* or desired height */
+    }
+    
+    /* Rest of your existing CSS */    
+}
