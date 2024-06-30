@@ -24,6 +24,7 @@ Heineken Detect - Utilizing technology to improve inspection and detection proce
 ## Demo
 - [Model Demo - Image](https://dinhgia2106.github.io/AIO-3KA_hackhcmc/)
 - [Model Demo - Video (Realtime)](https://dinhgia2106.github.io/AIO-3KA_hackhcmc/)
+<space><space>
   ![image](https://github.com/dinhgia2106/AIO-3KA_hackhcmc/assets/115169101/555957cb-3707-40a7-a5b2-3225dbee5332)
 
 
