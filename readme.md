@@ -20,10 +20,11 @@
     - PyTorch: Deep learning framework for training YOLOv9
 
   ## [Demo](https://dinhgia2106.github.io/Beer-detection-model-by-YOLOv9/)
-    - Use version `1` for the most stable results.
-    - Use version `2` for the most accurate results.
-    - Use versions `3` and 4 to detect objects that are difficult to identify (not recommended because the accuracy is not high).
 
+  - Use version `1` for the most stable results.
+  - Use version `2` for the most accurate results.
+  - Use versions `3` and `4` to detect objects that are difficult to identify (not recommended because the accuracy is not high).
+   
   ## Installation
 
   To run this project locally, follow these steps:
