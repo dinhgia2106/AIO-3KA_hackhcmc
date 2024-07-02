@@ -1,2 +1,4 @@
 # Ignore settings.json of Visual Studio Code
 Deploy/.vscode/settings.json
+
+*.PDF

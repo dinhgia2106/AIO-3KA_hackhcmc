@@ -1,41 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Heineken Detect</title>
-    <meta name="robots" content="noindex">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.6/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detect Beer · YOLOv9 Model</title>
+    <link rel="shortcut icon" href="./public/image/logo.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="./public/css/style.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <style>
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px; /* Adjust as needed for spacing between buttons */
+        }
+
+        .button-container .bttn {
+            flex: 1;
+            margin: 5px; /* Adjust margins to control spacing between buttons */
+        }
+
+        .button-group {
+            display: flex;
+            flex: 1;
+            justify-content: space-evenly;
+            gap: 5px;
+        }
+    </style>
 </head>
-<body>
-    <div class="header__logo center-horizontal" style="font-size: 3rem; color: #606FC7;">AIO_3KA</div>
+
+<body onload="thongbaopopup()">
+    <!-- Main Form -->
     <form id="inputForm">
-        <div class="header">
-            <div class="header__grid">
-                <div style="display:none;">
+        <!-- Header Section -->
+        <div class="header shadow py-3">
+            <div class="header__image row">
+                <div class="col-4 d-flex justify-content-center">
+                    <img class="header__logo" src="./public/image/logo-header.png" alt="Roboflow Inference">
+                </div>
+                <div class="col-4 d-flex justify-content-center">
+                    <img class="header__logo" src="./public/image/logo-team.png" alt="AIO_3KA Team">
+                </div>
+                <div class="col-4 d-flex justify-content-center">
+                    <img class="header__logo" src="https://images.crunchbase.com/image/upload/c_pad,f_auto,q_auto:eco,dpr_1/v1397750238/263f7da43e4360c0912997e3950e938e.jpg" alt="angelhack-logo">
+                </div>
+            </div>
+            <!-- Hidden grid for additional settings -->
+            <div class="header__grid d-none">
+                <div>
                     <label class="header__label" for="model">Model</label>
                     <input class="input" type="text" id="model" />
                 </div>
-                <div style="display:none;">
+                <div>
                     <label class="header__label" for="version">Version</label>
                     <input class="input" type="number" id="version" />
                 </div>
-                <div style="display:none;">
+                <div>
                     <label class="header__label" for="api_key">API Key</label>
                     <input class="input" type="text" id="api_key" />
                 </div>
             </div>
         </div>
-        <div class="content">
+        
+        <!-- Main Content Section -->
+        <div class="content container d-flex justify-content-center" style="padding-bottom: 0; padding-top: 80px;">
+            <h1 style="font-size: 50px; color: black; font-weight: 900; text-shadow: 2px 2px 2px gray;">BEER DETECTION TOOL</h1>
+        </div>
+        
+        <!-- Form Inputs Section -->
+        <div class="content container d-flex justify-content-center">
             <div class="content__grid">
-                <div class="col-12-s6-m4" id="method">
+                <div class="col-12-s6-m4 button-container">
+                    <label class="input__label" for="version">Version</label>
+                    <div class="button-group" id="versionSelector" onchange="updateVersion(this.value)">
+                        <option value="12" class="bttn left fill active">01</option>
+                        <option value="13" class="bttn">02</option>
+                        <option value="14" class="bttn">03</option>
+                        <option value="15" class="bttn right fill">04</option>
+                    </div>
+                </div>
+                
+                <!-- Upload Method Section -->
+                <div class="col-12-s6-m4 button-container" id="method">
                     <label class="input__label">Upload Method</label>
-                    <div>
+                    <div class="button-group">
                         <button data-value="upload" id="computerButton" class="bttn left fill active">Upload</button>
                         <button data-value="url" id="urlButton" class="bttn right fill">URL</button>
                     </div>
                 </div>
+
+                <!-- File Selection Section -->
                 <div class="col-12-m8" id="fileSelectionContainer">
                     <label class="input__label" for="file">Select File</label>
                     <div class="flex">
@@ -43,50 +101,64 @@
                         <button id="fileMock" class="bttn right active">Browse</button>
                     </div>
                     <input style="display: none;" type="file" id="file" />
+                    <p id="fileSelectedMsg" style="display:none;color:green;">File selected!</p>
                 </div>
+
+                <!-- URL Input Section -->
                 <div class="col-12-m8" id="urlContainer">
                     <label class="input__label" for="file">Enter Image URL</label>
                     <div class="flex">
-                        <input type="text" id="url" placeholder="https://path.to/your.jpg" class="input"/><br>
+                        <input type="text" id="url" placeholder="https://path.to/your.jpg" class="input" /><br>
                     </div>
+                    <p id="urlEnteredMsg" style="display:none;color:green;">URL entered!</p>
                 </div>
+
+                <!-- Additional Settings Section -->
                 <div class="col-12-m6">
                     <label class="input__label" for="classes">Filter Classes</label>
-                    <input type="text" id="classes" placeholder="Enter class names" class="input"/><br>
+                    <input type="text" id="classes" placeholder="Enter class names" class="input" /><br>
                     <span class="text--small">Separate names with commas</span>
                 </div>
+
                 <div class="col-6-m3 relative">
                     <label class="input__label" for="confidence">Min Confidence</label>
                     <div>
                         <i class="fas fa-crown"></i>
                         <span class="icon">%</span>
-                        <input type="number" id="confidence" value="40" max="100" accuracy="2" min="0" class="input input__icon"/></div>
+                        <input type="number" id="confidence" value="40" max="100" accuracy="2" min="25" class="input input__icon" />
+                    </div>
                 </div>
+
                 <div class="col-6-m3 relative">
                     <label class="input__label" for="overlap">Max Overlap</label>
                     <div>
                         <i class="fas fa-object-ungroup"></i>
                         <span class="icon">%</span>
-                        <input type="number" id="overlap" value="30" max="100" accuracy="2" min="0" class="input input__icon"/></div>
-                </div>
-                <div class="col-6-m3" id="format">
-                    <label class="input__label">Inference Result</label>
-                    <div>
-                        <button id="imageButton" data-value="image" class="bttn left fill active">Image</button>
-                        <button id="jsonButton" data-value="json" class="bttn right fill">JSON</button>
+                        <input type="number" id="overlap" value="40" max="100" accuracy="2" min="0" class="input input__icon" />
                     </div>
                 </div>
-                <div class="col-12 content__grid" id="imageOptions">
-                    <div class="col-12-s6-m4" id="labels">
-                        <label class="input__label">Labels</label>
-                        <div>
-                            <button class="bttn left">Off</button>
-                            <button data-value="on" class="bttn right active">On</button>
+
+                <!-- Inference Options Section -->
+                <div class="col-12 content__grid button-container" id="inferenceOptions">
+                    <div class="col-12-m4" id="format">
+                        <label class="input__label">Inference Result</label>
+                        <div class="button-group">
+                            <button id="imageButton" data-value="image" class="bttn left fill active">Image</button>
+                            <button id="jsonButton" data-value="json" class="bttn right fill">JSON</button>
                         </div>
                     </div>
-                    <div class="col-12-s6-m4" id="stroke">
+                    
+                    <div class="col-12-m4" id="labels">
+                        <label class="input__label">Labels</label>
+                        <div class="button-group">
+                            <button class="bttn left active">Off</button>
+                            <button data-value="on" class="bttn right">On</button>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12-m4" id="stroke">
                         <label class="input__label">Stroke Width</label>
-                        <div>
+                        <div class="button-group">
                             <button data-value="1" class="bttn left">1px</button>
                             <button data-value="2" class="bttn active">2px</button>
                             <button data-value="5" class="bttn">5px</button>
@@ -94,23 +166,109 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Run Inference Button -->
                 <div class="col-12">
                     <button type="submit" value="Run Inference" class="bttn__primary">Run Inference</button>
                 </div>
             </div>
-            <div class="result" id="resultContainer">
-                <div class="divider"></div>
-                <div class="result__header">
-                    <h3 class="headline">Result</h3>
-                    <a href="#">Copy Code</a>
+        </div>
+        
+        <!-- Result Section -->
+        <div class="content container d-flex justify-content-center">
+            <div style="min-width: 60%;">
+                <div class="result col-12" id="resultContainer">
+                    <div class="divider"></div>
+                    <div class="result__header">
+                        <h3 class="headline">Result</h3>
+                    </div>
+                    <pre id="output" class="codeblock"> here is your json </pre>
                 </div>
-                <pre id="output" class="codeblock">here is your json</pre>
             </div>
         </div>
     </form>
+
+    <!-- Footer Section -->
+    <footer class="new_footer_area bg_color shadow rounded">
+        <div class="new_footer_top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Get in Touch</h3>
+                            <p>Don’t miss any updates of our new templates and extensions.!</p>
+                            <form action="#" class="f_subscribe_two mailchimp" method="post" novalidate="true">
+                                <input type="text" name="EMAIL" class="form-control memail" placeholder="Email">
+                                <button class="btn btn_get btn_get_two" type="submit">Subscribe</button>
+                                <p class="mchimp-errmessage" style="display: none;"></p>
+                                <p class="mchimp-sucmessage" style="display: none;"></p>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft ps-5" data-wow-delay="0.4s" style="visibility: visible; animation-delay: 0.4s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Our Team - AIO_3KA</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="https://www.facebook.com/profile.php?id=100038863262949">Nguyen Van Minh Khanh</a></li>
+                                <li><a href="https://www.facebook.com/GrazT.2106">Tran Dinh Gia</a></li>
+                                <li><a href="https://www.facebook.com/nao.hack.3158">Le Hoang Nam</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget about-widget pl_70 wow fadeInLeft ps-5" data-wow-delay="0.6s" style="visibility: visible; animation-delay: 0.6s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Technology</h3>
+                            <ul class="list-unstyled f_list">
+                                <li><a href="https://colab.google">Google Colab</a></li>
+                                <li><a href="https://github.com/SkalskiP/yolov9">YOLOv9 Model</a></li>
+                                <li><a href="https://roboflow.com/">Roboflow</a></li>
+                                <li><a href="https://pytorch.org/">Pytorch</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="f_widget social-widget pl_70 wow fadeInLeft" data-wow-delay="0.8s" style="visibility: visible; animation-delay="0.8s; animation-name: fadeInLeft;">
+                            <h3 class="f-title f_600 t_color f_size_18">Team Solutions</h3>
+                            <div class="f_social_icon">
+                                <a href="https://www.facebook.com/GrazT.2106" class="fab fa-facebook"></a>
+                                <a href="https://www.linkedin.com/in/grazt/" class="fab fa-linkedin"></a>
+                                <a href="https://github.com/dinhgia2106" class="fab fa-github"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_bg">
+                <div class="footer_bg_one"></div>
+                <div class="footer_bg_two"></div>
+            </div>
+        </div>
+        <div class="footer_bottom">
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <p class="mb-0 f_400">Copyright 2024 &copy; Bản quyền thuộc về <a href="https://github.com/dinhgia2106">GrazT</a> và <a href="https://github.com/MinhKhanh-EternAI">MinhKhanh</a>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Popup Notification -->
+    <div class="tbpopup" id="tbpopup-1">
+        <div class="tboverlay" onclick="thongbaopopup()"></div>
+        <div class="tbcontent">
+            <div class="tbclose-btn" onclick="thongbaopopup()">&times;</div>
+            <div>
+                <h2 style="font-size:40px; font-weight:bold; padding-bottom: 30px;">Welcome to Beer Detection Tool!</h2>
+            </div>
+            <img src="./public/image/logo-header.png" alt="" width="500px">
+            <p style="font-size: 25px; padding: 10px 0;">Thanks For Visiting!</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/async/3.2.0/async.min.js"></script>
-    <script src="./public/js/scripts.js"></script>
+    <script src="./public/js/script.js"></script>
 </body>
 </html>
