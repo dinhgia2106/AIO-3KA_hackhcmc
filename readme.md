@@ -24,6 +24,15 @@
   - Use version `1` for the most stable results.
   - Use version `2` for the most accurate results.
   - Use versions `3` and `4` to detect objects that are difficult to identify (not recommended because the accuracy is not high).
+
+## How it Works
+
+1. **Data Collection and Annotation**: The dataset of beer images is collected and annotated using Roboflow. Each image is labeled to identify the beer bottles.
+2. **Model Training**: The YOLOv9 model is trained using the annotated dataset. PyTorch is used as the deep learning framework to implement and train the model.
+3. **Model Deployment**: A Flask web application is developed to deploy the trained model. The application uses OpenCV for image processing and allows users to upload images for beer detection.
+4. **Inference**: When an image is uploaded, the Flask application processes it through the YOLOv9 model to detect and highlight beer bottles in the image.
+5. **Output**: The result is displayed on the web interface, showing the original image with detected beer bottles highlighted.
+
    
   ## Installation
 
