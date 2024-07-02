@@ -74,14 +74,14 @@
         <!-- Form Inputs Section -->
         <div class="content container d-flex justify-content-center">
             <div class="content__grid">
-                <div class="col-12-s6-m4 button-container">
+                <div class="version-container">
                     <label class="input__label" for="version">Version</label>
-                    <div class="button-group" id="versionSelector" onchange="updateVersion(this.value)">
-                        <option value="12" class="bttn left fill active">01</option>
-                        <option value="13" class="bttn">02</option>
-                        <option value="14" class="bttn">03</option>
-                        <option value="15" class="bttn right fill">04</option>
-                    </div>
+                    <select id="versionSelector" onchange="updateVersion(this.value)">
+                        <option value="12" class="bttn right fill">1</option>
+                        <option value="13" class="bttn right fill">2</option>
+                        <option value="14" class="bttn right fill">3</option>
+                        <option value="15" class="bttn right fill">4</option>
+                    </select>
                 </div>
                 
                 <!-- Upload Method Section -->
@@ -159,8 +159,8 @@
                     <div class="col-12-m4" id="stroke">
                         <label class="input__label">Stroke Width</label>
                         <div class="button-group">
-                            <button data-value="1" class="bttn left">1px</button>
-                            <button data-value="2" class="bttn active">2px</button>
+                            <button data-value="1" class="bttn left active">1px</button>
+                            <button data-value="2" class="bttn">2px</button>
                             <button data-value="5" class="bttn">5px</button>
                             <button data-value="10" class="bttn right">10px</button>
                         </div>
