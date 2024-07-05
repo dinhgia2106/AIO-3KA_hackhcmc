@@ -44,7 +44,7 @@
       ```
   2. Navigate to the project directory:
       ```bash
-      cd AIO-3KA_hackhcmc
+      Beer-detection-model-by-YOLOv9
       ```
   3. Run following file to train:
       ```bash
