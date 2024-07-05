@@ -2,7 +2,7 @@
 
   ## Project Description
 
-  AIO-3KA_hackhcmc is a project for training the YOLOv9 model and deploying it via a web application
+  Beer-detection-model-by-YOLOv9 is a project for training the YOLOv9 model and deploying it via a web application
 
   ## Hackathon Category Selected
 
